@@ -17,7 +17,7 @@ A user could have many notes so a 1-n association exists between user & note.
 How to test using curl
 
 
-1. Retrieve all notes for a user
+> Retrieve all notes for a user
 
 HTTP METHOD : **GET**
 
@@ -25,7 +25,7 @@ curl command
 
 **curl http://<HOSTNAME>/usernotes/user/{userid}/notes**
 
-2. Add a new note for user
+> Add a new note for user
 
 HTTP METHOD : **POST**
 
@@ -43,7 +43,7 @@ data.json file should consists of :
 }
 
 
-3. Update an existing note for a user
+> Update an existing note for a user
 
 HTTP METHOD : **PUT**
 
@@ -61,7 +61,7 @@ data.json file should consists of :
 }
 
 
-4. Delete an existing note for a user
+> Delete an existing note for a user
 
 HTTP METHOD : **DELETE**
 
