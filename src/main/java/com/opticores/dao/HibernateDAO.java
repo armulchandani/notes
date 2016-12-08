@@ -10,13 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.opticores.exception.NoEntityFoundException;
 
-/**
+/** An abstract implementation of {@link Repository}
+ * 
+ * 
  * @author anubhav
  *
  * @param <E>
  */
 @SuppressWarnings("unchecked")
-public abstract class HibernateDAO<E> implements Repository<E, Serializable> {
+public class HibernateDAO<E> implements Repository<E, Serializable> {
 
 	private Logger LOGGER= LoggerFactory.getLogger(HibernateDAO.class);
 	
