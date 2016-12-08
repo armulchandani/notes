@@ -4,23 +4,30 @@ import java.io.Serializable;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.opticores.exception.NoEntityFoundException;
 
 /**
  * @author anubhav
  *
  * @param <E>
  */
+@SuppressWarnings("unchecked")
 public abstract class HibernateDAO<E> implements Repository<E, Serializable> {
 
+	private Logger LOGGER= LoggerFactory.getLogger(HibernateDAO.class);
+	
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	private Class<E> persistenceClass;
+	private Class<E> persistentClass;
 
 	public HibernateDAO(Class<E> entityClass) {
 
-		persistenceClass = entityClass;
+		persistentClass = entityClass;
 
 	}
 
@@ -32,19 +39,36 @@ public abstract class HibernateDAO<E> implements Repository<E, Serializable> {
 
 	@Override
 	public void deleteEntity(E entity) {
-		// TODO Auto-generated method stub
+		getSession().delete(entity);
+
+	}
+	
+	
+	@Override
+	public void deleteEntityById(Serializable Id) throws NoEntityFoundException {
+		
+		Session session= getSession();
+		E entity= (E) session.get(persistentClass, Id);
+		if(null!=entity){
+			session.delete(entity);
+		}
+		else{
+			LOGGER.info("Entity could not ne found with id '{}' ",Id);
+			throw new NoEntityFoundException("Entity Not Found");
+		}
 
 	}
 
 	@Override
 	public void updateEntity(E entity) {
-		// TODO Auto-generated method stub
+		getSession().saveOrUpdate(entity);
 
 	}
 
+	
 	@Override
 	public E findById(Serializable Id) {
-		return (E) getSession().get(persistenceClass, Id);
+		return (E) getSession().get(persistentClass, Id);
 	}
 
 	protected Session getSession() {

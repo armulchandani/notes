@@ -1,5 +1,6 @@
 package com.opticores.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.opticores.dao.NotesDao;
 import com.opticores.dao.UserDao;
+import com.opticores.exception.NoEntityFoundException;
 import com.opticores.model.Note;
 import com.opticores.model.User;
 
@@ -54,17 +56,22 @@ public class NoteServiceImpl implements NoteService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void updateNoteForUser(Integer noteId) {
-		// TODO Auto-generated method stub
+	public void updateNoteForUser(Note note,Integer userId) {
+		// Set the notes update time
+		note.setUpdated(new Timestamp(System.currentTimeMillis()));
+		User user= userDao.fetchUser(userId);
+		note.setUser(user);
+		notesDao.updateNote(note);
 
 	}
 	
 	/** 
 	 * {@inheritDoc}
+	 * @throws NoEntityFoundException 
 	 */
 	@Override
-	public void removeNoteForUser(Integer user) {
-		// TODO Auto-generated method stub
+	public void removeNoteForUser(Integer noteId) throws NoEntityFoundException {
+		notesDao.removeNote(noteId);
 
 	}
 

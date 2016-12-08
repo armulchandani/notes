@@ -49,7 +49,7 @@ public class Note implements Serializable{
 	@Column
 	private Timestamp updated;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="user")
 	@JsonIgnore
 	private User user;

@@ -2,6 +2,7 @@ package com.opticores.service;
 
 import java.util.List;
 
+import com.opticores.exception.NoEntityFoundException;
 import com.opticores.model.Note;
 
 /**
@@ -36,21 +37,23 @@ public interface NoteService {
 
 	/**
 	 * This function updates an existing note for a user provided its note id
+	 * @param userid 
 	 * 
 	 * 
-	 * @param user
+	 * @param an instanceof note object which needs to be updated
 	 */
 
-	public void updateNoteForUser(Integer noteId);
+	public void updateNoteForUser(Note note, Integer userid);
 
 	/**
 	 * This function removes a given note for a particular user provided its
 	 * note id
 	 * 
-	 * 
-	 * @param user
+	 * @param an instanceof note object for removing 
+	 * @return <true> if deleted else <false>
+	 * @throws NoEntityFoundException 
 	 */
 
-	public void removeNoteForUser(Integer user);
+	public void removeNoteForUser(Integer noteId) throws NoEntityFoundException;
 
 }
