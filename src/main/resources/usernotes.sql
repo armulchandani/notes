@@ -4,7 +4,7 @@ CREATE TABLE `user` (
 	`email` VARCHAR(80) NOT NULL,
 	`password` VARCHAR(25) NOT NULL,
 	`created` TIME NOT NULL,
-	`updated` TIME NOT NULL,
+	`updated` TIME NULL DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE INDEX `UNIQUE_EMAIL` (`email`)
 )
@@ -12,13 +12,14 @@ COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
 
+
 -- DDL STATEMENT FOR CREATE NOTE TABLE
 CREATE TABLE `note` (
 	`id` INT(11) NOT NULL,
 	`title` CHAR(50) NOT NULL,
 	`note` VARCHAR(1000) NOT NULL,
 	`created` TIME NOT NULL,
-	`update` TIME NOT NULL,
+	`updated` TIME NOT NULL,
 	`user` INT(11) NOT NULL,
 	PRIMARY KEY (`id`),
 	CONSTRAINT `FK_USER` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE CASCADE
