@@ -25,10 +25,12 @@ public class ApplicationInitializer implements WebApplicationInitializer{
 	public void onStartup(ServletContext servletContext)
 			throws ServletException {
 		
+		// Create an instance of annotation based web application context
 		AnnotationConfigWebApplicationContext context= new AnnotationConfigWebApplicationContext();
 		context.register(ApplicationConfiguration.class);
 		context.setServletContext(servletContext);
 		
+		// Registering Spring Dispatcher servlet
 		ServletRegistration.Dynamic dispatcher= servletContext.addServlet("dispatcher", new DispatcherServlet(context));
 		dispatcher.setLoadOnStartup(1);
 		dispatcher.addMapping("/");
