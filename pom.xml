@@ -3,16 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.opticores</groupId>
-	<artifactId>notes</artifactId>
+	<artifactId>usernotes</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>notes</name>
+	<name>usernotes</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>3.2.5.RELEASE</spring.version>
+		<spring.version>4.0.6.RELEASE</spring.version>
 		<mysql.driver.version>5.1.40</mysql.driver.version>
 		<hibernate.version>4.2.10.Final</hibernate.version>
 	</properties>
@@ -113,7 +113,7 @@
 					<downloadSources>true</downloadSources>
 					<downloadJavadocs>true</downloadJavadocs>
 					<wtpversion>2.0</wtpversion>
-					<wtpContextName>notes</wtpContextName>
+					<wtpContextName>usernotes</wtpContextName>
 				</configuration>
 			</plugin>
 		</plugins>
