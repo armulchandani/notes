@@ -1,23 +1,24 @@
 package com.opticores.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class User {
+public class User extends BaseEntity implements Serializable{
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer id;
+		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 77465780931697871L;
 	
+
 	@Column
 	private String email;
 	
@@ -34,12 +35,7 @@ public class User {
 	private Set<Note> notes;
 	
 	
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	
 	public String getEmail() {
 		return email;
 	}
