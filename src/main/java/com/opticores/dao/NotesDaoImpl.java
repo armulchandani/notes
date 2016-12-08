@@ -28,4 +28,10 @@ public class NotesDaoImpl extends HibernateDAO<Note> implements
 		return notes;
 	}
 
+	@Override
+	public void addNotesForUser(Note note) {
+		addEntity(note);
+		
+	}
+
 }

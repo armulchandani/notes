@@ -9,5 +9,7 @@ public interface NotesDao {
 	
 	
 	public List<Note> getAllNotesForUser(User user);
+	
+	public void addNotesForUser(Note note);
 
 }

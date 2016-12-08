@@ -13,7 +13,7 @@ import com.opticores.config.DatabaseConfiguration;
  */
 public class ApplicationConstants {
 	
-	public static final String PROPERTY_DATABASECONFIG="databaseconfig.properties";
+	public static final String PROPERTY_DATABASECONFIG="classpath:databaseconfig.properties";
 	
 	public static final String PROPERTY_HIBERNATE_DAILECT="hibernate.dialect";
 	

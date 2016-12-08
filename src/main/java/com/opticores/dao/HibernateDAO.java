@@ -1,12 +1,9 @@
 package com.opticores.dao;
 
 import java.io.Serializable;
-import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -29,7 +26,7 @@ public abstract class HibernateDAO<E> implements Repository<E, Serializable> {
 
 	@Override
 	public void addEntity(E entity) {
-		// TODO Auto-generated method stub
+		getSession().save(entity);
 
 	}
 

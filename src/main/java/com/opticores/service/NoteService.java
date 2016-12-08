@@ -27,11 +27,12 @@ public interface NoteService {
 
 	/**
 	 * This function adds a new note for a user provided its user id
+	 * @param note 
 	 * 
 	 * 
 	 * @param user
 	 */
-	public void addNoteForUser(Integer user);
+	public void addNoteForUser(Note note, Integer user);
 
 	/**
 	 * This function updates an existing note for a user provided its note id

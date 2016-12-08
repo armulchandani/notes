@@ -11,17 +11,16 @@ import com.opticores.model.Note;
 import com.opticores.service.NoteService;
 
 public class NodesTest extends BaseTest {
-	
-	
+
 	@Autowired
 	private NoteService noteService;
-	
+
 	@Test
-	public void retrieveAllNotesForUserShouldPass(){
-		
-		List<Note> notes=noteService.retrieveNotesForUser(1);
-		
-		assertEquals(0, notes.size());
+	public void retrieveAllNotesForUserShouldPass() {
+
+		List<Note> notes = noteService.retrieveNotesForUser(1);
+
+		assertNotNull(notes);
 	}
 
 }

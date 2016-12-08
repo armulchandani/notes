@@ -40,8 +40,13 @@ public class NoteServiceImpl implements NoteService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void addNoteForUser(Integer user) {
-		// TODO Auto-generated method stub
+	public void addNoteForUser(Note note,Integer userId) {
+		
+		User user= userDao.fetchUser(userId);
+		note.setUser(user);
+		
+		notesDao.addNotesForUser(note);
+		
 
 	}
 	
