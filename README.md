@@ -25,7 +25,7 @@ HTTP METHOD : **GET**
 
 curl command 
 
-**curl http://HOSTNAME/usernotes/user/{userid}/notes**
+**curl http://HOSTNAME/{CONTEXTPATH}/api/notes -u username:password**
 
 > Add a new note for user
 
@@ -33,7 +33,7 @@ HTTP METHOD : **POST**
 
 curl command 
 
-**curl -vX POST http://HOSTNAME/usernotes/user/{userid}/notes -d @c:\data.json --header "Content-Type: application/json"**
+**curl -vX POST http://HOSTNAME/{CONTEXTPATH}/api/notes -d @c:\data.json --header "Content-Type: application/json" -u username:password**
 
 data.json file should consists of :
 
@@ -51,7 +51,7 @@ HTTP METHOD : **PUT**
 
 curl command 
 
-**curl -vX PUT http://HOSTNAME/usernotes/user/{userid}/notes -d @c:\data.json --header "Content-Type: application/json"**
+**curl -vX PUT http://HOSTNAME/{CONTEXTPATH}/api/notes -d @c:\data.json --header "Content-Type: application/json" -u username:password**
 
 data.json file should consists of :
 
@@ -70,6 +70,6 @@ HTTP METHOD : **DELETE**
 
 curl command 
 
-**curl -vX DELETE http://HOSTNAME/usernotes/user/notes/{userid}***
+**curl -vX DELETE http://HOSTNAME/{CONTEXTPATH}/api/notes/{userid} -u username:password**
 
 
