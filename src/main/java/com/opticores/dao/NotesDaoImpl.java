@@ -68,4 +68,9 @@ public class NotesDaoImpl extends HibernateDAO<Note> implements
 		
 	}
 
+	@Override
+	public Note getNoteForId(Integer id) {
+		return findById(id);
+	}
+
 }

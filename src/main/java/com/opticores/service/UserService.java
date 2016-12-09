@@ -20,5 +20,15 @@ public interface UserService {
 	 * @return an instance of user object or null
 	 */
 	public User getUserById(Integer id);
+	
+	
+	/**
+	 * Function basically responsible for retrieving the user provide it's
+	 * identifier
+	 * 
+	 * @param id
+	 * @return an instance of user object or null
+	 */
+	public User getUserByLogin(String userName);
 
 }

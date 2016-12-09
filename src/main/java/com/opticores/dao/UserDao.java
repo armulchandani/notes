@@ -7,5 +7,7 @@ public interface UserDao {
 	
 	public User fetchUser(Integer id);
 	
+	public User fetchUserByLogin(String login);
+	
 	
 }

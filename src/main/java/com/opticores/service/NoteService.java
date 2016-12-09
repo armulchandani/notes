@@ -49,11 +49,18 @@ public interface NoteService {
 	 * This function removes a given note for a particular user provided its
 	 * note id
 	 * 
-	 * @param an instanceof note object for removing 
-	 * @return <true> if deleted else <false>
+	 * @param note id for removing 
 	 * @throws NoEntityFoundException 
 	 */
 
 	public void removeNoteForUser(Integer noteId) throws NoEntityFoundException;
+	
+	
+	/**
+	 * This function retrieves a given note for the given note id
+	 * 
+	 * @param note id for retrieving 
+	 */
+	public Note getNoteById(Integer noteid);
 
 }

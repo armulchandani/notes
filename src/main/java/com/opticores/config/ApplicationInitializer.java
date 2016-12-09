@@ -1,12 +1,6 @@
 package com.opticores.config;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
-
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /** The base application initializer class conforming to Servlet 3.0 specification 
  *  i.e XML less application.
@@ -20,21 +14,26 @@ import org.springframework.web.servlet.DispatcherServlet;
  * @author anubhav
  *
  */
-public class ApplicationInitializer implements WebApplicationInitializer{
+public class ApplicationInitializer extends AbstractAnnotationConfigDispatcherServletInitializer{
 
-	public void onStartup(ServletContext servletContext)
-			throws ServletException {
-		
-		// Create an instance of annotation based web application context
-		AnnotationConfigWebApplicationContext context= new AnnotationConfigWebApplicationContext();
-		context.register(ApplicationConfiguration.class);
-		context.setServletContext(servletContext);
-		
-		// Registering Spring Dispatcher servlet
-		ServletRegistration.Dynamic dispatcher= servletContext.addServlet("dispatcher", new DispatcherServlet(context));
-		dispatcher.setLoadOnStartup(1);
-		dispatcher.addMapping("/");
-		
+	@Override
+	protected Class<?>[] getRootConfigClasses() {
+		// TODO Auto-generated method stub
+		return new Class[]{ApplicationConfiguration.class};
 	}
+
+	@Override
+	protected Class<?>[] getServletConfigClasses() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String[] getServletMappings() {
+		// TODO Auto-generated method stub
+		return new String[]{"/"};
+	} 
+
+	
 
 }

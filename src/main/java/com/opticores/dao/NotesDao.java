@@ -51,4 +51,6 @@ public interface NotesDao {
 	 */
 	public void removeNote(Integer noteId) throws NoEntityFoundException;
 
+	public Note getNoteForId(Integer id);
+
 }

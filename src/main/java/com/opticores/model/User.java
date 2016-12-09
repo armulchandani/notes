@@ -9,7 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.NamedNativeQueries;
+import org.hibernate.annotations.NamedNativeQuery;
+
 @Entity
+@NamedNativeQueries({ @NamedNativeQuery(name = "fetchUserByLoginId", query = "select * from user u where u.email=:user", resultClass = User.class) })
 public class User extends BaseEntity implements Serializable{
 	
 		

@@ -28,4 +28,10 @@ public class UserServiceImpl implements UserService {
 		return userDao.fetchUser(id);
 	}
 
+	@Override
+	public User getUserByLogin(String userName) {
+		
+		return userDao.fetchUserByLogin(userName);
+	}
+
 }
