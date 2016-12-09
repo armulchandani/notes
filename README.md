@@ -9,7 +9,7 @@ A user could have many notes so a 1-n association exists between user & note.
 
 ###### Technology stack used:
 
-*1. Java 1.7, Spring MVC 4.0.6.RELEASE, Hibernate 4.2.10, Tomcat 7.0.57, MYSQL v 5.1.73,HeidiSQL*
+*1. Java 1.7, Spring MVC 4.0.6.RELEASE, Spring security 4.0.0.RELEASE, Hibernate 4.2.10, Tomcat 7.0.57, MYSQL v 5.1.73, HeidiSQL*
 
 **usernotes.sql** has been added consisting of DDL statements for the required table.
 
