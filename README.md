@@ -70,6 +70,6 @@ HTTP METHOD : **DELETE**
 
 curl command 
 
-**curl -vX DELETE http://HOSTNAME/{CONTEXTPATH}/api/notes/{userid} -u username:password**
+**curl -vX DELETE http://HOSTNAME/{CONTEXTPATH}/api/notes/{noteid} -u username:password**
 
 
