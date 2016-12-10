@@ -16,8 +16,8 @@ public class ErrorMessage {
 	// Application specific error message
 	private String message;
 	
-	// A link for the client to visit to know more about an error which occurred
-	private String documentLink;
+	// A link for the client to visit to know more about an error which occurred. Giving a default value
+	private String documentLink="http://xyz.errordocument.com";
 
 	public String getErrorCode() {
 		return errorCode;

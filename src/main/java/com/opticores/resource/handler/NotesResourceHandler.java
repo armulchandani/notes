@@ -2,12 +2,13 @@ package com.opticores.resource.handler;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +20,11 @@ import com.opticores.exception.AccessDeniedException;
 import com.opticores.exception.InvalidRequestException;
 import com.opticores.exception.NoEntityFoundException;
 import com.opticores.exception.UserNotFoundException;
-import com.opticores.model.ErrorMessage;
 import com.opticores.model.Note;
 import com.opticores.service.NoteService;
 import com.opticores.service.UserService;
+import static com.opticores.common.UriPathConstants.URI_PATH_API_NOTES;
+import static com.opticores.common.UriPathConstants.URI_PATH_VARIABLE_NOTES_ID;
 
 /**
  * Main resource handler, handling clients requests for :
@@ -36,8 +38,10 @@ import com.opticores.service.UserService;
  */
 
 @RestController
-@RequestMapping(value = "/api/notes")
+@RequestMapping(value = URI_PATH_API_NOTES)
 public class NotesResourceHandler {
+
+	private Logger LOGGER = LoggerFactory.getLogger(NotesResourceHandler.class);
 
 	@Autowired
 	private NoteService noteService;
@@ -61,10 +65,23 @@ public class NotesResourceHandler {
 	@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
 	public ResponseEntity<List<Note>> getAllNotes() {
 
-		List<Note> notes = noteService.retrieveNotesForUser(getUserId());
+		final String METHOD_NAME = Thread.currentThread().getStackTrace()[1]
+				.getMethodName();
+
+		Integer userId = getUserId();
+
+		LOGGER.info(
+				"Entering method '{}' to retrieve all notes for user with id as '{}'",
+				METHOD_NAME, userId);
+
+		List<Note> notes = noteService.retrieveNotesForUser(userId);
 
 		ResponseEntity<List<Note>> response = new ResponseEntity<List<Note>>(
 				notes, HttpStatus.OK);
+
+		LOGGER.info(
+				"Exiting method '{}' to retrieve all notes for user with id as '{}'",
+				METHOD_NAME, userId);
 
 		return response;
 
@@ -82,24 +99,29 @@ public class NotesResourceHandler {
 	 * 
 	 * 
 	 * @return a list of notes for a user
-	 * @throws UserNotFoundException
 	 */
 	@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ResponseEntity<?> addNote(@RequestBody Note note) {
 
-		noteService.addNoteForUser(note, getUserId());
+		final String METHOD_NAME = Thread.currentThread().getStackTrace()[1]
+				.getMethodName();
+
+		Integer userId = getUserId();
+
+		LOGGER.info(
+				"Entering method '{}' to add a note for user with id as '{}'",
+				METHOD_NAME, userId);
+
+		noteService.addNoteForUser(note, userId);
 		ResponseEntity<?> response = new ResponseEntity<>(
 				"Note created successfully", HttpStatus.CREATED);
 
+		LOGGER.info(
+				"Exiting method '{}' to add a note for user with id as '{}'",
+				METHOD_NAME, userId);
+
 		return response;
 
-	}
-
-	private Integer getUserId() throws UserNotFoundException {
-
-		CustomUserdetails userDetails = (CustomUserdetails) SecurityContextHolder
-				.getContext().getAuthentication().getPrincipal();
-		return userDetails.getUserId();
 	}
 
 	/**
@@ -118,16 +140,27 @@ public class NotesResourceHandler {
 	@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
 	public ResponseEntity<?> updateNote(@RequestBody Note note) {
 
+		final String METHOD_NAME = Thread.currentThread().getStackTrace()[1]
+				.getMethodName();
+
+		Integer userId = getUserId();
+
+		LOGGER.info(
+				"Entering method '{}' to update a note for user with id as '{}'",
+				METHOD_NAME, userId);
+
 		Integer requestingUserId = getUserId();
 		checkUserAuthorization(note.getId(), requestingUserId);
 
 		noteService.updateNoteForUser(note, requestingUserId);
 
+		LOGGER.info(
+				"Exiting method '{}' to update a note for user with id as '{}'",
+				METHOD_NAME, userId);
+
 		return new ResponseEntity<>("Note updated successfully", HttpStatus.OK);
 
 	}
-
-	
 
 	/**
 	 * A function bound to an 'endpoint' to remove a resource( NOTES ) for a
@@ -142,23 +175,55 @@ public class NotesResourceHandler {
 	 * 
 	 * @return a list of notes for a user
 	 */
-	@RequestMapping(value = "/{noteid}", method = RequestMethod.DELETE)
+	@RequestMapping(value = URI_PATH_VARIABLE_NOTES_ID, method = RequestMethod.DELETE)
 	public ResponseEntity<String> deleteNote(@PathVariable Integer noteid)
 			throws NoEntityFoundException {
-		
+
+		final String METHOD_NAME = Thread.currentThread().getStackTrace()[1]
+				.getMethodName();
+
+		Integer userId = getUserId();
+
+		LOGGER.info(
+				"Entering method '{}' to delete a note for user with id as '{}'",
+				METHOD_NAME, userId);
+
 		// 1. Retrieve the user id of the logged in user
 		Integer requestingUserId = getUserId();
-		
+
 		// 2. Check user access to perform this operation
-		checkUserAuthorization(noteid,requestingUserId);
-		
+		checkUserAuthorization(noteid, requestingUserId);
+
 		noteService.removeNoteForUser(noteid);
+
+		LOGGER.info(
+				"Exiting method '{}' to delete a note for user with id as '{}'",
+				METHOD_NAME, userId);
 
 		return new ResponseEntity<>("Note deleted successfully", HttpStatus.OK);
 
 	}
-	
-	
+
+	/**
+	 * A function to retrieve a user id from security context post user
+	 * authentication
+	 * 
+	 * @return <userid> of an authenticated user
+	 */
+	private Integer getUserId() {
+
+		CustomUserdetails userDetails = (CustomUserdetails) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal();
+
+		Integer authenticatedUserId = userDetails.getUserId();
+
+		if (null == authenticatedUserId) {
+			throw new UserNotFoundException();
+		}
+
+		return authenticatedUserId;
+	}
+
 	/**
 	 * This function basically checks if the requesting user is authorized to
 	 * perform an operation like UPDATE/DELETE a resource (NOTE)
@@ -172,7 +237,8 @@ public class NotesResourceHandler {
 	private void checkUserAuthorization(Integer noteId, Integer requestingUserId) {
 
 		if (null == noteId) {
-			throw new InvalidRequestException();
+			throw new InvalidRequestException(
+					"Note id is missing. cannot proceed with request. Please correct and try again");
 		}
 
 		Note originalNote = noteService.getNoteById(noteId);
@@ -180,48 +246,6 @@ public class NotesResourceHandler {
 		if (!(originalNote.getUser().getId().equals(requestingUserId))) {
 			throw new AccessDeniedException();
 		}
-
-	}
-
-	/**
-	 * A handler to catch if a user is not found and an exception and send
-	 * appropriate response to the caller/client
-	 * 
-	 * @param ex
-	 * @return
-	 */
-	@ExceptionHandler(UserNotFoundException.class)
-	public ResponseEntity<ErrorMessage> handleUserNotFound(
-			UserNotFoundException ex) {
-
-		ErrorMessage errorMessage = new ErrorMessage();
-		StringBuilder builder = new StringBuilder("User not found: ");
-		errorMessage.setMessage(builder.toString());
-		errorMessage.setDocumentLink("http://wwww.gotprint.com");
-
-		return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
-
-	}
-
-	/**
-	 * A handler to catch all exception and send appropriate response to the
-	 * caller/client
-	 * 
-	 * @param ex
-	 * @return
-	 */
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorMessage> handleAllException(Exception ex) {
-
-		ErrorMessage errorMessage = new ErrorMessage();
-		StringBuilder builder = new StringBuilder(
-				"Some occured while performing operation : ");
-		builder.append(ex.getMessage());
-		errorMessage.setMessage(builder.toString());
-		errorMessage.setDocumentLink("http://wwww.gotprint.com");
-
-		return new ResponseEntity<>(errorMessage,
-				HttpStatus.INTERNAL_SERVER_ERROR);
 
 	}
 

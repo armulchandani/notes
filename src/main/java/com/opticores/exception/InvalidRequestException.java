@@ -13,9 +13,20 @@ public class InvalidRequestException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = -1766791558978783221L;
 	
-	
+	/** Default constructor
+	 * 
+	 */
 	public InvalidRequestException(){
-		super("Either the resource is invalid or missing or request is invalid");
+		super();
+	}
+	
+	
+	/** Parameterized constructor
+	 * 
+	 * @param message
+	 */
+	public InvalidRequestException(String message){
+		super(message);
 	}
 
 }

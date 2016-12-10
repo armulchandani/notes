@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import static com.opticores.common.UriPathConstants.URI_PATH_MATCHER_API_NOTES;
 
 /**
  * Very simple configuration class responsible for configuring the way an
@@ -39,7 +40,7 @@ public class ApplicationSecurityConfiguration extends
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.httpBasic().and().authorizeRequests().antMatchers("/api/notes/**")
+		http.httpBasic().and().authorizeRequests().antMatchers(URI_PATH_MATCHER_API_NOTES)
 				.authenticated().and().csrf().disable();
 	}
 
