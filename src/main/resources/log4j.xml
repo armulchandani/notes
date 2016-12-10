@@ -16,9 +16,10 @@
 		<appender-ref ref="console" />
 	</logger>
 
-	<root>
-		<level value="DEBUG" />
+
+	<logger name="org.springframework">
+		<level value="OFF" />
 		<appender-ref ref="console" />
-	</root>
+	</logger>
 
 </log4j:configuration>
