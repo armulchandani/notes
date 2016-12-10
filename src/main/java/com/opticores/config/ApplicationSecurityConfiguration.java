@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.AuthenticationEntryPoint;
+
 import static com.opticores.common.UriPathConstants.URI_PATH_MATCHER_API_NOTES;
 
 /**
@@ -31,6 +33,9 @@ public class ApplicationSecurityConfiguration extends
 	@Autowired
 	@Qualifier(value = "basicUserDetailsService")
 	private UserDetailsService userDetailsService;
+	
+	@Autowired
+	private AuthenticationEntryPoint authenticationEntryPoint;
 
 	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth)
@@ -40,6 +45,8 @@ public class ApplicationSecurityConfiguration extends
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
+		http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
 		http.httpBasic().and().authorizeRequests().antMatchers(URI_PATH_MATCHER_API_NOTES)
 				.authenticated().and().csrf().disable();
 	}

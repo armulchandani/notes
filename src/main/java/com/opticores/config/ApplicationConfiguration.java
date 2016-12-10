@@ -1,9 +1,12 @@
 package com.opticores.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 /** The basic class acting as a main configuration class looked upon by 
@@ -20,5 +23,12 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan(basePackages="com.opticores")
 @Import({DatabaseConfiguration.class})
 public class ApplicationConfiguration {
+	
+	
+	@Bean
+	public ObjectMapper objectMapper(){
+		ObjectMapper objectMapper= new ObjectMapper();
+		return objectMapper;
+	}
 
 }
