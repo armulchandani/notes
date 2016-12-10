@@ -16,7 +16,7 @@
 		<appender-ref ref="console" />
 	</logger>
 
-
+	<!-- Logging for spring framework is switched OFF. To enable , just assign any appropriate LEVEL -->
 	<logger name="org.springframework">
 		<level value="OFF" />
 		<appender-ref ref="console" />
