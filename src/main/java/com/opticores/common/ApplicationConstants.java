@@ -1,7 +1,5 @@
 package com.opticores.common;
 
-import com.opticores.config.DatabaseConfiguration;
-
 /** A simple class holding all the application related constants
  *  avoiding hard coding in other application components.
  *  
@@ -24,5 +22,8 @@ public class ApplicationConstants {
 	public static final String PROPERTY_JDBC_PASSWORD="jdbc.password";
 	
 	public static final String PROPERTY_JDBC_DRIVER="jdbc.driverClassName";
+	
+	public static final String PROFILE_DEV = "DEV";
+	public static final String PROFILE_INTEGRATION = "INTEGRATION";
 
 }
