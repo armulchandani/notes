@@ -34,7 +34,7 @@ public class Article extends BaseEntity implements Serializable {
 	private String title;
 
 	@Column
-	private String article;
+	private String content;
 
 	@Column
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
@@ -57,12 +57,13 @@ public class Article extends BaseEntity implements Serializable {
 		this.title = title;
 	}
 
-	public String getArticle() {
-		return article;
+
+	public String getContent() {
+		return content;
 	}
 
-	public void setArticle(String article) {
-		this.article = article;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public Timestamp getCreated() {

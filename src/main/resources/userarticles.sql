@@ -23,7 +23,7 @@ INSERT INTO `user` (`id`, `email`, `password`, `created`, `updated`) VALUES (2, 
 CREATE TABLE `article` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
 	`title` CHAR(50) NOT NULL,
-	`article` VARCHAR(1000) NOT NULL,
+	`content` VARCHAR(1000) NOT NULL,
 	`created` DATETIME NOT NULL,
 	`updated` DATETIME NULL DEFAULT NULL,
 	`user` INT(11) NOT NULL,

@@ -39,7 +39,7 @@ data.json file should consists of :
 
 {
     "title": "Head First design pattern",
-    "article": "A wonderful book for begineers, experienced individuals",
+    "content": "A wonderful book for beginners, experienced individuals",
     "created": "2016-12-08 18:33 PM GMT",
     "updated": null
 }
@@ -58,7 +58,7 @@ data.json file should consists of :
 {
     "id":11,
     "title": "Head First design pattern",
-    "article": "A wonderful book for begineers, experienced individuals",
+    "content": "A wonderful book for beginners, experienced individuals",
     "created": "2016-12-08 18:33 PM GMT",
     "updated": null
 }
