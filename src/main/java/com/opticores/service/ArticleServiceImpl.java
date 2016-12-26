@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.opticores.dao.NotesDao;
+import com.opticores.dao.ArticleDao;
 import com.opticores.dao.UserDao;
 import com.opticores.exception.NoEntityFoundException;
-import com.opticores.model.Note;
+import com.opticores.model.Article;
 import com.opticores.model.User;
 
 /**
@@ -19,11 +19,11 @@ import com.opticores.model.User;
  */
 @Service
 @Transactional
-public class NoteServiceImpl implements NoteService {
+public class ArticleServiceImpl implements ArticleService {
 	
 	
 	@Autowired
-	private NotesDao notesDao;
+	private ArticleDao articleDao;
 	
 	@Autowired
 	private UserDao userDao;
@@ -32,22 +32,22 @@ public class NoteServiceImpl implements NoteService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public List<Note> retrieveNotesForUser(Integer userId) {
+	public List<Article> retrieveArticlesForUser(Integer userId) {
 		
 		User user= userDao.fetchUser(userId);
-		return notesDao.getAllNotesForUser(user);
+		return articleDao.getAllArticlesForUser(user);
 	}
 	
 	/** 
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void addNoteForUser(Note note,Integer userId) {
+	public void addArticleForUser(Article article,Integer userId) {
 		
 		User user= userDao.fetchUser(userId);
-		note.setUser(user);
+		article.setUser(user);
 		
-		notesDao.addNotesForUser(note);
+		articleDao.addArticlesForUser(article);
 		
 
 	}
@@ -56,12 +56,12 @@ public class NoteServiceImpl implements NoteService {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void updateNoteForUser(Note note,Integer userId) {
-		// Set the notes update time
-		note.setUpdated(new Timestamp(System.currentTimeMillis()));
+	public void updateArticleForUser(Article article,Integer userId) {
+		// Set the articles update time
+		article.setUpdated(new Timestamp(System.currentTimeMillis()));
 		User user= userDao.fetchUser(userId);
-		note.setUser(user);
-		notesDao.updateNote(note);
+		article.setUser(user);
+		articleDao.updateArticle(article);
 
 	}
 	
@@ -70,14 +70,14 @@ public class NoteServiceImpl implements NoteService {
 	 * @throws NoEntityFoundException 
 	 */
 	@Override
-	public void removeNoteForUser(Integer noteId) throws NoEntityFoundException {
-		notesDao.removeNote(noteId);
+	public void removeArticleForUser(Integer articleId) throws NoEntityFoundException {
+		articleDao.removeArticle(articleId);
 
 	}
 
 	@Override
-	public Note getNoteById(Integer id) {
-		return notesDao.getNoteForId(id);
+	public Article getArticleById(Integer id) {
+		return articleDao.getArticleForId(id);
 	}
 
 }

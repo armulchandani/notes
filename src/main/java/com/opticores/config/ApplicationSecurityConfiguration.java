@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import static com.opticores.common.UriPathConstants.URI_PATH_MATCHER_API_NOTES;
+import static com.opticores.common.UriPathConstants.URI_PATH_MATCHER_API_ARTICLES;
 
 /**
  * Very simple configuration class responsible for configuring the way an
@@ -47,7 +47,7 @@ public class ApplicationSecurityConfiguration extends
 	protected void configure(HttpSecurity http) throws Exception {
 		
 		http.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
-		http.httpBasic().and().authorizeRequests().antMatchers(URI_PATH_MATCHER_API_NOTES)
+		http.httpBasic().and().authorizeRequests().antMatchers(URI_PATH_MATCHER_API_ARTICLES)
 				.authenticated().and().csrf().disable();
 	}
 

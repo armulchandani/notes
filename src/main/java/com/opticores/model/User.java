@@ -36,7 +36,7 @@ public class User extends BaseEntity implements Serializable{
 	private Timestamp updated;
 	
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="user")
-	private Set<Note> notes;
+	private Set<Article> articles;
 	
 	
 	

@@ -83,7 +83,7 @@ public class DatabaseConfiguration {
 	public DataSource dataSource() {
 		JndiDataSourceLookup jndidataSourceLookup = new JndiDataSourceLookup();
 		DataSource dataSource = jndidataSourceLookup
-				.getDataSource("jdbc/notes");
+				.getDataSource("jdbc/articles");
 		return dataSource;
 	}
 

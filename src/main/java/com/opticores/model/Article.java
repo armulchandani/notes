@@ -15,8 +15,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@NamedNativeQueries({ @NamedNativeQuery(name = "fetchNotesByUserId", query = "select * from note n where n.user=:user", resultClass = Note.class) })
-public class Note extends BaseEntity implements Serializable {
+@NamedNativeQueries({ @NamedNativeQuery(name = "fetchArticlesByUserId", query = "select * from article a where a.user=:user", resultClass = Article.class) })
+public class Article extends BaseEntity implements Serializable {
 
 	/**
 	 * 
@@ -26,7 +26,7 @@ public class Note extends BaseEntity implements Serializable {
 	/**
 	 * 
 	 */
-	public Note() {
+	public Article() {
 
 	}
 
@@ -34,7 +34,7 @@ public class Note extends BaseEntity implements Serializable {
 	private String title;
 
 	@Column
-	private String note;
+	private String article;
 
 	@Column
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm a z")
@@ -57,12 +57,12 @@ public class Note extends BaseEntity implements Serializable {
 		this.title = title;
 	}
 
-	public String getNote() {
-		return note;
+	public String getArticle() {
+		return article;
 	}
 
-	public void setNote(String note) {
-		this.note = note;
+	public void setArticle(String article) {
+		this.article = article;
 	}
 
 	public Timestamp getCreated() {

@@ -20,17 +20,19 @@ import com.opticores.exception.AccessDeniedException;
 import com.opticores.exception.InvalidRequestException;
 import com.opticores.exception.NoEntityFoundException;
 import com.opticores.exception.UserNotFoundException;
-import com.opticores.model.Note;
-import com.opticores.service.NoteService;
+import com.opticores.model.Article;
+import com.opticores.service.ArticleService;
 import com.opticores.service.UserService;
-import static com.opticores.common.UriPathConstants.URI_PATH_API_NOTES;
-import static com.opticores.common.UriPathConstants.URI_PATH_VARIABLE_NOTES_ID;
+import static com.opticores.common.UriPathConstants.URI_PATH_API_ARTICLES;
+import static com.opticores.common.UriPathConstants.URI_PATH_VARIABLE_ARTICLES_ID;
 
 /**
  * Main resource handler, handling clients requests for :
  * 
- * 1. fetch notes for a user 2. updating notes for a user 3. removing a user
- * note 4. adding a new note
+ * 1. fetch articles for a user 
+ * 2. updating articles for a user 
+ * 3. removing a user article
+ * 4. adding a new article
  * 
  * 
  * @author anubhav
@@ -38,32 +40,32 @@ import static com.opticores.common.UriPathConstants.URI_PATH_VARIABLE_NOTES_ID;
  */
 
 @RestController
-@RequestMapping(value = URI_PATH_API_NOTES)
-public class NotesResourceHandler {
+@RequestMapping(value = URI_PATH_API_ARTICLES)
+public class ArticleResourceHandler {
 
-	private Logger LOGGER = LoggerFactory.getLogger(NotesResourceHandler.class);
+	private Logger LOGGER = LoggerFactory.getLogger(ArticleResourceHandler.class);
 
 	@Autowired
-	private NoteService noteService;
+	private ArticleService articleService;
 
 	@Autowired
 	private UserService userService;
 
 	/**
-	 * A function bound to an 'endpoint' to retrieve all the resources( NOTES )
+	 * A function bound to an 'endpoint' to retrieve all the resources( ARTICLES )
 	 * for a given user
 	 * 
 	 * The 'endpoint' URI takes following form:
 	 * 
-	 * "/user/1/notes"
+	 * "/user/1/articles"
 	 * 
 	 * Request METHOD TYPE: GET
 	 * 
 	 * 
-	 * @return a list of notes for a user
+	 * @return a list of articles for a user
 	 */
 	@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
-	public ResponseEntity<List<Note>> getAllNotes() {
+	public ResponseEntity<List<Article>> getAllArticles() {
 
 		final String METHOD_NAME = Thread.currentThread().getStackTrace()[1]
 				.getMethodName();
@@ -71,16 +73,16 @@ public class NotesResourceHandler {
 		Integer userId = getUserId();
 
 		LOGGER.info(
-				"Entering method '{}' to retrieve all notes for user with id as '{}'",
+				"Entering method '{}' to retrieve all articles for user with id as '{}'",
 				METHOD_NAME, userId);
 
-		List<Note> notes = noteService.retrieveNotesForUser(userId);
+		List<Article> articles = articleService.retrieveArticlesForUser(userId);
 
-		ResponseEntity<List<Note>> response = new ResponseEntity<List<Note>>(
-				notes, HttpStatus.OK);
+		ResponseEntity<List<Article>> response = new ResponseEntity<List<Article>>(
+				articles, HttpStatus.OK);
 
 		LOGGER.info(
-				"Exiting method '{}' to retrieve all notes for user with id as '{}'",
+				"Exiting method '{}' to retrieve all articles for user with id as '{}'",
 				METHOD_NAME, userId);
 
 		return response;
@@ -88,20 +90,20 @@ public class NotesResourceHandler {
 	}
 
 	/**
-	 * A function bound to an 'endpoint' to add a resource( NOTES ) for a given
+	 * A function bound to an 'endpoint' to add a resource( ARTICLES ) for a given
 	 * user
 	 * 
 	 * The 'endpoint' URI takes following form:
 	 * 
-	 * "/api/notes"
+	 * "/api/articles"
 	 * 
 	 * Request METHOD TYPE: POST
 	 * 
 	 * 
-	 * @return a list of notes for a user
+	 * @return a list of articles for a user
 	 */
 	@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
-	public ResponseEntity<?> addNote(@RequestBody Note note) {
+	public ResponseEntity<?> addArticle(@RequestBody Article article) {
 
 		final String METHOD_NAME = Thread.currentThread().getStackTrace()[1]
 				.getMethodName();
@@ -109,15 +111,15 @@ public class NotesResourceHandler {
 		Integer userId = getUserId();
 
 		LOGGER.info(
-				"Entering method '{}' to add a note for user with id as '{}'",
+				"Entering method '{}' to add a article for user with id as '{}'",
 				METHOD_NAME, userId);
 
-		noteService.addNoteForUser(note, userId);
+		articleService.addArticleForUser(article, userId);
 		ResponseEntity<?> response = new ResponseEntity<>(
-				"Note created successfully", HttpStatus.CREATED);
+				"Article created successfully", HttpStatus.CREATED);
 
 		LOGGER.info(
-				"Exiting method '{}' to add a note for user with id as '{}'",
+				"Exiting method '{}' to add a article for user with id as '{}'",
 				METHOD_NAME, userId);
 
 		return response;
@@ -125,20 +127,20 @@ public class NotesResourceHandler {
 	}
 
 	/**
-	 * A function bound to an 'endpoint' to add a resource( NOTES ) for a given
+	 * A function bound to an 'endpoint' to add a resource( ARTICLES ) for a given
 	 * user
 	 * 
 	 * The 'endpoint' URI takes following form:
 	 * 
-	 * "/api/notes"
+	 * "/api/articles"
 	 * 
 	 * Request METHOD TYPE: PUT
 	 * 
 	 * 
-	 * @return a list of notes for a user
+	 * @return a list of articles for a user
 	 */
 	@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
-	public ResponseEntity<?> updateNote(@RequestBody Note note) {
+	public ResponseEntity<?> updateArticle(@RequestBody Article article) {
 
 		final String METHOD_NAME = Thread.currentThread().getStackTrace()[1]
 				.getMethodName();
@@ -146,37 +148,37 @@ public class NotesResourceHandler {
 		Integer userId = getUserId();
 
 		LOGGER.info(
-				"Entering method '{}' to update a note for user with id as '{}'",
+				"Entering method '{}' to update a article for user with id as '{}'",
 				METHOD_NAME, userId);
 
 		Integer requestingUserId = getUserId();
-		checkUserAuthorization(note.getId(), requestingUserId);
+		checkUserAuthorization(article.getId(), requestingUserId);
 
-		noteService.updateNoteForUser(note, requestingUserId);
+		articleService.updateArticleForUser(article, requestingUserId);
 
 		LOGGER.info(
-				"Exiting method '{}' to update a note for user with id as '{}'",
+				"Exiting method '{}' to update a article for user with id as '{}'",
 				METHOD_NAME, userId);
 
-		return new ResponseEntity<>("Note updated successfully", HttpStatus.OK);
+		return new ResponseEntity<>("Article updated successfully", HttpStatus.OK);
 
 	}
 
 	/**
-	 * A function bound to an 'endpoint' to remove a resource( NOTES ) for a
+	 * A function bound to an 'endpoint' to remove a resource( ARTICLES ) for a
 	 * given user
 	 * 
 	 * The 'endpoint' URI takes following form:
 	 * 
-	 * "/api/notes/2"
+	 * "/api/articles/2"
 	 * 
 	 * Request METHOD TYPE: DELETE
 	 * 
 	 * 
-	 * @return a list of notes for a user
+	 * @return a list of articles for a user
 	 */
-	@RequestMapping(value = URI_PATH_VARIABLE_NOTES_ID, method = RequestMethod.DELETE)
-	public ResponseEntity<String> deleteNote(@PathVariable Integer noteid)
+	@RequestMapping(value = URI_PATH_VARIABLE_ARTICLES_ID, method = RequestMethod.DELETE)
+	public ResponseEntity<String> deleteArticle(@PathVariable Integer articleid)
 			throws NoEntityFoundException {
 
 		final String METHOD_NAME = Thread.currentThread().getStackTrace()[1]
@@ -185,22 +187,22 @@ public class NotesResourceHandler {
 		Integer userId = getUserId();
 
 		LOGGER.info(
-				"Entering method '{}' to delete a note for user with id as '{}'",
+				"Entering method '{}' to delete a article for user with id as '{}'",
 				METHOD_NAME, userId);
 
 		// 1. Retrieve the user id of the logged in user
 		Integer requestingUserId = getUserId();
 
 		// 2. Check user access to perform this operation
-		checkUserAuthorization(noteid, requestingUserId);
+		checkUserAuthorization(articleid, requestingUserId);
 
-		noteService.removeNoteForUser(noteid);
+		articleService.removeArticleForUser(articleid);
 
 		LOGGER.info(
-				"Exiting method '{}' to delete a note for user with id as '{}'",
+				"Exiting method '{}' to delete a article for user with id as '{}'",
 				METHOD_NAME, userId);
 
-		return new ResponseEntity<>("Note deleted successfully", HttpStatus.OK);
+		return new ResponseEntity<>("Article deleted successfully", HttpStatus.OK);
 
 	}
 
@@ -226,24 +228,24 @@ public class NotesResourceHandler {
 
 	/**
 	 * This function basically checks if the requesting user is authorized to
-	 * perform an operation like UPDATE/DELETE a resource (NOTE)
+	 * perform an operation like UPDATE/DELETE a resource (ARTICLE)
 	 * 
 	 * if not authorized, it throws an appropriate runtime exception
 	 * 
-	 * @param note
+	 * @param articleId
 	 * @param requestingUserId
 	 * 
 	 */
-	private void checkUserAuthorization(Integer noteId, Integer requestingUserId) {
+	private void checkUserAuthorization(Integer articleId, Integer requestingUserId) {
 
-		if (null == noteId) {
+		if (null == articleId) {
 			throw new InvalidRequestException(
-					"Note id is missing. cannot proceed with request. Please correct and try again");
+					"Article id is missing. cannot proceed with request. Please correct and try again");
 		}
 
-		Note originalNote = noteService.getNoteById(noteId);
+		Article originalArticle = articleService.getArticleById(articleId);
 
-		if (!(originalNote.getUser().getId().equals(requestingUserId))) {
+		if (!(originalArticle.getUser().getId().equals(requestingUserId))) {
 			throw new AccessDeniedException();
 		}
 
